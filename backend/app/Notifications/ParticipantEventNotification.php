@@ -42,11 +42,11 @@ class ParticipantEventNotification extends Notification
     public function toArray(object $notifiable): array
     {
         $message = match($this->status) {
-            'paused' => "Atenção: O evento '{$this->event->title}' foi pausado temporariamente pelo organizador.",
-            'published' => "Boa notícia! O evento '{$this->event->title}' voltou a atividade.",
-            'canceled' => "Infelizmente, o evento '{$this->event->title}' foi cancelado. Aguarde instruções de reembolso se aplicável.",
-            'finished' => "O evento '{$this->event->title}' foi finalizado. Verifique a página de certificados se você realizou o check-in no evento.",
-            default => "Houve uma atualização no evento '{$this->event->title}'."
+            'paused' => "Atenção: O evento {$this->event->name} foi pausado temporariamente pelo organizador.",
+            'published' => "Boa notícia! O evento {$this->event->name} está com as inscrições abertas.",
+            'canceled' => "Infelizmente, o evento {$this->event->name} foi cancelado. Aguarde instruções de reembolso se aplicável.",
+            'finished' => "O evento {$this->event->name} foi finalizado. Verifique a página de certificados se você realizou o check-in no evento.",
+            default => "Houve uma atualização no evento {$this->event->name}."
         };
 
         return [

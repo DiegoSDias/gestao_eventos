@@ -31,3 +31,4 @@ Route::prefix('events')->group(function() {
 
 Route::post('/{event}/registration-user', [RegistrationAdminController::class, 'storeAdmin']);
 Route::get('/{event}/certificates-user', [CertificateAdminController::class, 'indexAdmin']);
+Route::post('/{registration}/generate-certificate', [CertificateAdminController::class, 'generateParticipantCertificate']);
