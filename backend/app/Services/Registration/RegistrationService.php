@@ -17,22 +17,30 @@ class RegistrationService
         return $registrations;
     }
 
-    public function myRegistrations(User $user)
+    public function myRegistrations(User $user, array $data)
     {
-        $participation = $user->registrations()
-                    ->with(['event.user'])
-                    ->latest()
-                    ->paginate(12);
+        $query = $user->registrations()
+                    ->whereHas('event')
+                    ->with(['event.user']);
+        if (!empty($data['status'])) {
+            $query->whereHas('event', function($query) use ($data) {
+                $query->where('status', $data['status']);
+            });
+        } else {
+            $query->whereHas('event', function($query) use ($data) {
+                $query->where('status', '!=', StatusEvent::FINISHED->value);
+            });
+        }
+
+        $registrations = $query->latest()->paginate(12);
         
-        
-        $participation->through(function ($registration) {
+        $registrations->through(function ($registration) {
             $events = $registration->event;
             $events->user = $registration->user;
-
             return $events;
         });
 
-        return $participation;
+        return $registrations;
     }
 
     public function storeRegistration(User $user, Event $event)

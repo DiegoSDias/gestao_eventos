@@ -28,9 +28,9 @@ class RegistrationPolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(User $user, Registration $registration): bool
     {
-        return true;
+        return $user->id === $registration->event->organizer_id;
     }
 
     /**

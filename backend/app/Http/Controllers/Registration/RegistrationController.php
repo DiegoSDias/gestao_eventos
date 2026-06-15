@@ -34,7 +34,8 @@ class RegistrationController extends Controller
     {
         try {
             $user = $request->user();
-            $result = $this->registrationService->myRegistrations($user);
+            $data = $request->all();
+            $result = $this->registrationService->myRegistrations($user, $data);
             return $this->sendResponse($result, 'Minhas inscrições encontradas com sucesso.');
         } catch (\Throwable $th) {
             return $this->sendError('Erro generico: ', [0 => $th->getMessage()]);
