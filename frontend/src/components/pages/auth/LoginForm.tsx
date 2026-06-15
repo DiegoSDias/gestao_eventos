@@ -4,8 +4,6 @@ import { z } from "zod";
 
 import { ArrowRight, Lock, Mail, LogIn, Eye, EyeOff } from "lucide-react";
 
-import { api } from "../../../services/api";
-
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../../contexts/AuthContext";
 
@@ -22,7 +20,8 @@ type LoginFormData = z.infer<typeof loginSchema>;
 export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-  const { setAuthenticated } = useAuth();
+
+  const { signIn } = useAuth();
 
   const {
     register,
@@ -35,18 +34,8 @@ export function LoginForm() {
 
   async function onSubmit(data: LoginFormData) {
     try {
-      const response = await api.post("/login", data);
-
-      const token = response.data.data.token;
-      const user = response.data.data.user;
-
-      if (token) {
-        localStorage.setItem("@Eventos:token", token);
-        localStorage.setItem("@Eventos:user", JSON.stringify(user));
-
-        api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-        setAuthenticated(true);
-      }
+      console.log(data)
+      await signIn(data);
 
       navigate("/");
     } catch (error) {
