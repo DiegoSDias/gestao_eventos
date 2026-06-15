@@ -1,25 +1,23 @@
 import { useSearchParams } from "react-router-dom";
-import { ParticipantEvents } from "../../ui/events/my_events/ParticipantEvents";
-import { FinishedEvents } from "../../ui/events/my_events/FinishedEvents";
-import { TrashedEvents } from "../../ui/events/my_events/TrashedEvents";
-import { OrganizerEvents } from "../../ui/events/my_events/OrganizerEvents";
+import { OrganizerEvents } from "../events/my_events/OrganizerEvents";
+import { TrashedEvents } from "../events/my_events/TrashedEvents";
 
-export function MyEvents() {
+export function EventsOrganizer() {
   const [searchParams] = useSearchParams();
   const activeTab = searchParams.get("tab") || "participant";
 
   const getHeaderInfo = () => {
     switch (activeTab) {
-      case "finished":
+      case "trashed":
         return {
-          title: "Eventos Finalizados",
-          subtitle: "Histórico de eventos que já ocorrerram.",
+          title: "Eventos Deletados",
+          subtitle: "Eventos que você excluiu.",
         };
-      case "participant":
+      case "organizer":
       default:
         return {
-          title: "Minhas Inscrições",
-          subtitle: "Acompanhe os eventos que você vai participar.",
+          title: "Eventos Organizados",
+          subtitle: "Gerencie os eventos criados por você.",
         };
     }
   };
@@ -36,9 +34,6 @@ export function MyEvents() {
           </div>
         </div>
         <div className="mt-6">
-          
-          {activeTab === "participant" && <ParticipantEvents />}
-          {activeTab === "finished" && <FinishedEvents />}
           {activeTab === "organizer" && <OrganizerEvents />}
           {activeTab === "trashed" && <TrashedEvents />}
         </div>

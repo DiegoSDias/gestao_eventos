@@ -30,6 +30,9 @@ export function EventDetailsSidebar({
   formatDate,
   formatTime,
 }: EventDetailsSidebarProps) {
+
+  const isFinished = event.status === 'finished';
+
   return (
     <div className="lg:col-span-4 space-y-6">
       {isTrashed ? (
@@ -37,6 +40,14 @@ export function EventDetailsSidebar({
           <XCircle size={20} />
           Evento Indisponível
         </div>
+      ) : isFinished ? (
+        <div className="space-y-3">
+          <div className="w-full bg-slate-100 text-slate-600 font-bold py-4 rounded-2xl text-center border border-slate-200 flex items-center justify-center gap-2 text-base shadow-sm cursor-not-allowed">
+            <CheckCircle2 size={20} />
+            Evento Finalizado
+          </div>
+        </div>
+        
       ) : isOrganizer ? (
         <button
           onClick={onNavigateParticipants}
@@ -139,13 +150,13 @@ export function EventDetailsSidebar({
           {isTrashed ? (
             <button
               onClick={onOpenRestore}
-              className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl flex items-center justify-center gap-2 transition-colors shadow-sm active:scale-95 cursor-pointer"
+              className="w-full mt-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl flex items-center justify-center gap-2 transition-colors shadow-sm active:scale-95 cursor-pointer"
             >
               <RotateCcw size={18} />
               Restaurar Evento
             </button>
           ) : (
-            <div className="space-y-3">
+            <div className="space-y-3 mt-4">
               <button
                 onClick={onEditEvent}
                 className="w-full bg-[#F58634] hover:bg-[#e07525] text-white font-bold py-3.5 rounded-xl flex items-center justify-center gap-2 transition-colors shadow-sm active:scale-95 cursor-pointer"

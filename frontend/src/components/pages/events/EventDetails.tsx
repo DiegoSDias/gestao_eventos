@@ -97,6 +97,7 @@ export function EventDetails() {
               isActionSubmitting={isActionSubmitting}
               handleEventStatusAction={handleEventStatusAction}
               onOpenCancelEvent={() => setModalType('cancel_event')}
+              onNavigateParticipants={() => navigate(`/organizer/events/${event.id}/participants`)}
               onEditEvent={() => navigate(`/event/${event.id}/edit`)}
               onOpenDelete={() => setModalType('delete')}
             />

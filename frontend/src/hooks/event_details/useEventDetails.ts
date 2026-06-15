@@ -4,6 +4,7 @@ import { api } from '../../services/api';
 import { isAxiosError } from 'axios';
 import type { Event } from '../../types/Event';
 import type { StatusEvent } from '../../types/enums';
+import { useAuth } from '../../contexts/AuthContext';
 
 export type EventDetailsModalType = 'subscribe' | 'unsubscribe' | 'delete' | 'cancel_event' | 'restore' | 'edit_banner' | null;
 
@@ -31,6 +32,7 @@ export function useEventDetails() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [statusError, setStatusError] = useState<string | null>(null);
+  const { user } = useAuth();
 
   const [modalType, setModalType] = useState<EventDetailsModalType>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -64,9 +66,7 @@ export function useEventDetails() {
     fetchEventDetails();
   }, [eventId]);
 
-  const userStorage = localStorage.getItem('@Eventos:user');
-  const currentUser = userStorage ? JSON.parse(userStorage) : null;
-  const isOrganizer = currentUser?.id === event?.user?.id;
+  const isOrganizer = user?.id === event?.user?.id;
   const isTrashed = !!event?.deleted_at;
 
   const formatDate = (dateString: string) => new Date(dateString).toLocaleDateString('pt-BR');

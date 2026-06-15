@@ -7,6 +7,7 @@ import { CreateEvent } from "../components/pages/events/CreateEvent";
 import { EditEvent } from "../components/pages/events/EditEvent";
 import { EventParticipants } from "../components/pages/organizer/EventParticipants";
 import { MyCertificates } from "../components/pages/certificate/MyCertificates";
+import { EventsOrganizer } from "../components/ui/organizer/EventsOrganizer";
 
 export const appRoutes: RouteObject[] = [
     {
@@ -36,6 +37,10 @@ export const appRoutes: RouteObject[] = [
     {
         path: 'organizer/events/:id/participants',
         element: <EventParticipants />
+    },
+    {
+        path: 'organizer/events/',
+        element: <EventsOrganizer />
     },
     {
         path: 'my-certificates',
