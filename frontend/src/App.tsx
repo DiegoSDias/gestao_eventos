@@ -1,17 +1,26 @@
 import { Outlet } from 'react-router-dom';
-import Navbar from './components/ui/Navbar'
-import { useAuth } from './contexts/AuthContext'
+import { useAuth } from './contexts/AuthContext';
+import { Sidebar } from './components/ui/Sidebar';
+import Navbar from './components/ui/Navbar';
 
-function App() {
-  const { isAuthenticated } = useAuth()
+
+export function App() {
+  const { isAuthenticated } = useAuth();
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      {isAuthenticated && <Navbar />}
+    <div className="min-h-screen bg-[#F8FAFC] flex font-sans">
 
-      <main>
-        <Outlet />
-      </main>
+      {isAuthenticated && <Sidebar />}
+
+      <div className={`flex-1 flex flex-col min-w-0 ${isAuthenticated ? 'ml-64' : ''}`}>
+        
+        {isAuthenticated && <Navbar />}
+
+        <main className="flex-1">
+          <Outlet />
+        </main>
+        
+      </div>
     </div>
   );
 }
