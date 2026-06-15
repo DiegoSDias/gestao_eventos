@@ -67,7 +67,7 @@ class EventLifecycleService
         $event->update([
             'status' => StatusEvent::PAUSED->value,
         ]);
-
+            
         $participants = $event->confirmedParticipants;
         if($participants->isNotEmpty()) {
             Notification::send(

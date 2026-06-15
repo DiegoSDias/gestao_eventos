@@ -72,7 +72,7 @@ class UserController extends Controller
         Gate::authorize('delete', $request->user());
         try {
             $result = $this->userService->deleteUser($request->user());
-            return $this->sendResponse($result, 'Usuário deletado com sucesso.');
+            return $this->sendResponse($result, 'Sua conta foi excluída. Seus eventos ativos foram cancelados e os participantes notificados.');
         } catch (\Throwable $th) {
             return $this->sendError('Erro generico: ', [0 => $th->getMessage()]);
         }

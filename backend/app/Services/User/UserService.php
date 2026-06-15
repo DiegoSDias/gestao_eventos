@@ -2,12 +2,15 @@
 
 namespace App\Services\User;
 
+use App\Enums\StatusEvent;
 use App\Models\Address;
 use App\Models\User;
+use App\Notifications\ParticipantEventNotification;
 use Carbon\Carbon;
-use ErrorException;
+
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
 
 class UserService
 {
@@ -62,6 +65,22 @@ class UserService
     public function deleteUser(User $user) 
     {
         DB::transaction(function() use($user) {
+
+            $pendingEvents = $user->events()
+                            ->whereNotIn('status', [StatusEvent::FINISHED->value, StatusEvent::CANCELED->value])
+                            ->get();
+            
+            foreach ($pendingEvents as $pendingEvent) {
+                $participants = $pendingEvent->confirmedParticipants;
+                if($participants->isNotEmpty()) {
+                    Notification::send(
+                        $participants,
+                        new ParticipantEventNotification($pendingEvent, StatusEvent::CANCELED->value)
+                    );
+                }
+                $pendingEvent->delete();
+            }
+
             $timestamp = Carbon::now()->timestamp;
 
             $user->update([

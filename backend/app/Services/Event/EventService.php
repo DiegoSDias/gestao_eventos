@@ -50,7 +50,9 @@ class EventService
         try {
             $events = Event::onlyTrashed()
                             ->where('organizer_id', $user->id)
-                            ->paginate(15);
+                            ->with('user')
+                            ->latest()
+                            ->paginate(12);
             
             return $events;
         } catch (\Throwable $th) {
